@@ -24,9 +24,8 @@ export const person = {
   available: true,
   availability: "Open to DevOps and platform roles",
   socials: [
-    // CHECK: these are guessed from your email handle. Correct them if wrong.
-    { label: "GitHub", href: "https://github.com/akhilbaratam" },
-    { label: "LinkedIn", href: "https://www.linkedin.com/in/akhilbaratam" },
+    { label: "GitHub", href: "https://github.com/Akhil-Baratam" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/akhil-baratam/" },
     // `download` marks this as an action rather than a destination, and gives
     // the saved file a sensible name instead of the repo path.
     {
@@ -110,8 +109,7 @@ export const work = [
     summary:
       "A private GKE cluster from modular Terraform, deployed through Workload Identity Federation so there are no long-lived credentials to store in GitHub.",
     stack: ["GKE", "Terraform", "Argo CD", "Gateway API"],
-    // CHECK: confirm the repo path.
-    href: "https://github.com/akhilbaratam/GCP-tf-infra",
+    href: "https://github.com/Akhil-Baratam/GCP-tf-infra",
     image: "https://picsum.photos/seed/gke-platform-network/900/700",
   },
   {
