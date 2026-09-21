@@ -21,6 +21,7 @@ content swap. Anything marked `CHECK` in that file still needs your input:
 | Phone (set to `""` to hide it) | `person.phone` |
 | GitHub / LinkedIn / resume links | `person.socials` |
 | Resume PDF | `public/Akhil-Baratam-DevOps-CV.pdf` |
+| Toolchain logo files | `public/marks/` |
 | Degree line in the footer | `person.education` |
 | Hero photograph | `portrait.src` |
 | Toolchain marks | `toolchain` |
@@ -44,17 +45,24 @@ matched to the palette.
 
 ### Toolchain marks
 
-Marks are CSS masks, so any SVG in a square viewBox works and follows the
-palette in both themes. Two gotchas:
+Marks live in `public/marks` and are applied as CSS masks, so any SVG in a
+square viewBox works and follows the palette in both themes.
 
-- Simple Icons has no AWS or Azure mark (both brands asked to be removed). AWS
-  comes from devicon instead. Check any new slug resolves in a browser first, or
-  the mark renders blank.
+They are committed rather than pulled from a CDN on purpose: a `mask-image`
+that fails to load is treated as `none`, so a CDN outage would render solid
+rectangles instead of missing logos. Committing them also removes 18 requests
+to a third-party origin from every page load.
+
+Sources are Simple Icons (CC0) and devicon for AWS, which Simple Icons does not
+carry because Amazon asked to be removed. To add a tool, drop its SVG in that
+folder and add an entry to `toolchain`.
+
+Two things to watch:
+
 - Wordmark-shaped art sits small inside a square canvas. Give it a `scale` (AWS
   uses `1.6`) so it reads at the same optical size as the glyph marks.
-
-Loki and Karpenter are in neither icon set, so they appear in the capability
-clusters as text rather than in the logo wall.
+- Loki and Karpenter are in neither icon set, so they appear in the capability
+  clusters as text rather than in the logo wall.
 
 ## Deploying
 

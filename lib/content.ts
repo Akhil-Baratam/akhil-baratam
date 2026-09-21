@@ -45,9 +45,8 @@ export const portrait = {
   height: 1200,
 };
 
-const si = (slug: string) => `https://cdn.simpleicons.org/${slug}`;
-const devicon = (path: string) =>
-  `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${path}.svg`;
+/** Marks are vendored into /public/marks, so the page has no runtime CDN dependency. */
+const mark = (name: string) => `/marks/${name}.svg`;
 
 /**
  * Toolchain marks. Rendered as CSS masks, so any single- or multi-colour SVG
@@ -67,28 +66,28 @@ type Mark = {
 export const toolchain: Mark[] = [
   {
     label: "Amazon Web Services",
-    src: devicon("amazonwebservices/amazonwebservices-plain-wordmark"),
+    src: mark("aws"),
     // A wordmark inside a square canvas, so it needs a bigger box to read at
     // the same optical size as the glyph marks beside it.
     scale: 1.6,
   },
-  { label: "Google Cloud", src: si("googlecloud") },
-  { label: "Terraform", src: si("terraform") },
-  { label: "Kubernetes", src: si("kubernetes") },
-  { label: "Docker", src: si("docker") },
-  { label: "Helm", src: si("helm") },
-  { label: "Argo CD", src: si("argo") },
-  { label: "GitHub Actions", src: si("githubactions") },
-  { label: "Jenkins", src: si("jenkins") },
-  { label: "Prometheus", src: si("prometheus") },
-  { label: "Grafana", src: si("grafana") },
-  { label: "Datadog", src: si("datadog") },
-  { label: "Python", src: si("python") },
-  { label: "Linux", src: si("linux") },
-  { label: "Nginx", src: si("nginx") },
-  { label: "PostgreSQL", src: si("postgresql") },
-  { label: "MySQL", src: si("mysql") },
-  { label: "Git", src: si("git") },
+  { label: "Google Cloud", src: mark("googlecloud") },
+  { label: "Terraform", src: mark("terraform") },
+  { label: "Kubernetes", src: mark("kubernetes") },
+  { label: "Docker", src: mark("docker") },
+  { label: "Helm", src: mark("helm") },
+  { label: "Argo CD", src: mark("argo") },
+  { label: "GitHub Actions", src: mark("githubactions") },
+  { label: "Jenkins", src: mark("jenkins") },
+  { label: "Prometheus", src: mark("prometheus") },
+  { label: "Grafana", src: mark("grafana") },
+  { label: "Datadog", src: mark("datadog") },
+  { label: "Python", src: mark("python") },
+  { label: "Linux", src: mark("linux") },
+  { label: "Nginx", src: mark("nginx") },
+  { label: "PostgreSQL", src: mark("postgresql") },
+  { label: "MySQL", src: mark("mysql") },
+  { label: "Git", src: mark("git") },
 ];
 
 /**
