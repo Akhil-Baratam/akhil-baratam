@@ -88,6 +88,12 @@ Once you have a domain, add it under Project Settings, Domains, and set
 `NEXT_PUBLIC_SITE_URL` to it so canonical and Open Graph links resolve to the
 real address instead of the deployment URL.
 
+Leaving that variable unset is fine: the build falls back to
+`VERCEL_PROJECT_PRODUCTION_URL`, then `VERCEL_URL`, then localhost, and any
+value that is blank or not a valid URL is skipped rather than failing the
+build. A scheme is optional, so `example.com` works as well as
+`https://example.com`.
+
 ### Other free options
 
 | Host | Works out of the box | Trade-off |

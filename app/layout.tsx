@@ -16,15 +16,42 @@ const mono = Geist_Mono({
 });
 
 /**
- * Absolute base for Open Graph and canonical URLs. Set NEXT_PUBLIC_SITE_URL to
- * your domain once you have one; until then Vercel's per-deployment URL is
- * used, so link previews resolve on preview builds too.
+ * Absolute base for Open Graph and canonical URLs.
+ *
+ * Set NEXT_PUBLIC_SITE_URL to your domain once you have one. Until then this
+ * falls back to Vercel's own URLs so link previews resolve on preview builds.
+ *
+ * Every candidate is validated rather than trusted. An environment variable
+ * that exists but is empty is a normal thing for a hosting dashboard to
+ * produce, and `new URL("")` throws during the build rather than at request
+ * time, which fails the whole deployment. Nullish coalescing does not help
+ * here: an empty string is not nullish.
  */
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ??
-  (process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : "http://localhost:3000");
+function resolveSiteUrl(): string {
+  const candidates = [
+    process.env.NEXT_PUBLIC_SITE_URL,
+    // The stable production domain, preferred for canonical links.
+    process.env.VERCEL_PROJECT_PRODUCTION_URL,
+    // The per-deployment URL, so previews still get absolute links.
+    process.env.VERCEL_URL,
+  ];
+
+  for (const candidate of candidates) {
+    const value = candidate?.trim();
+    if (!value) continue;
+    // Vercel supplies bare hostnames; a hand-typed domain often lacks a scheme.
+    const withScheme = /^https?:\/\//i.test(value) ? value : `https://${value}`;
+    try {
+      return new URL(withScheme).origin;
+    } catch {
+      // Ignore a malformed value and try the next candidate.
+    }
+  }
+
+  return "http://localhost:3000";
+}
+
+const siteUrl = resolveSiteUrl();
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
