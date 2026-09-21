@@ -1,0 +1,445 @@
+@import "tailwindcss";
+
+/* ============================================================================
+   DESIGN TOKENS
+
+   Palette: deep pine field, bone type, one signal-amber accent.
+   Chosen against the two defaults this subject attracts - the neon-on-black
+   terminal look and the cream/serif editorial look. Pine reads as
+   infrastructure without the hacker costume; amber is the colour of a signal
+   lamp, which is what this person's job actually is.
+
+   Rules locked for the whole page:
+     - ONE accent (--accent). No second colour is introduced anywhere.
+     - ONE radius (--radius: 3px) on every surface, image, input, and button.
+     - ONE theme at a time. Sections never invert.
+   ========================================================================= */
+
+:root {
+  --bg: #0b1512;
+  --bg-2: #101d18;
+  --bg-3: #16261f;
+  --line: #1e2f28;
+  --line-strong: #2c4337;
+  --fg: #e8e6dc;
+  --fg-2: #90a096;
+  --accent: #e9a13b;
+  --accent-soft: #f0b869;
+  --on-accent: #12100a;
+
+  --radius: 3px;
+  --rail: clamp(1.25rem, 5vw, 5rem);
+  --measure: 62ch;
+
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  --bg: #e7eae4;
+  --bg-2: #dde2da;
+  --bg-3: #d3d9cf;
+  --line: #c3cabd;
+  --line-strong: #a7b2a0;
+  --fg: #13211b;
+  --fg-2: #4d5c54;
+  --accent: #8a4e08;
+  --accent-soft: #6f3e06;
+  --on-accent: #fdfbf5;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #e7eae4;
+    --bg-2: #dde2da;
+    --bg-3: #d3d9cf;
+    --line: #c3cabd;
+    --line-strong: #a7b2a0;
+    --fg: #13211b;
+    --fg-2: #4d5c54;
+    --accent: #8a4e08;
+    --accent-soft: #6f3e06;
+    --on-accent: #fdfbf5;
+
+    color-scheme: light;
+  }
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-2: var(--bg-2);
+  --color-bg-3: var(--bg-3);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-fg: var(--fg);
+  --color-fg-2: var(--fg-2);
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* ============================================================================
+   BASE
+   ========================================================================= */
+
+* {
+  min-width: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: var(--radius);
+}
+
+/* ============================================================================
+   TYPE SCALE
+   Perfect-fourth-ish scale. Personality comes from weight contrast inside one
+   family, never from mixing a serif into a sans line.
+   ========================================================================= */
+
+.t-display {
+  font-size: clamp(2.6rem, 6.2vw, 5.4rem);
+  line-height: 0.96;
+  letter-spacing: -0.04em;
+  font-weight: 300;
+}
+
+.t-h2 {
+  font-size: clamp(1.9rem, 4.4vw, 3.25rem);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  font-weight: 400;
+}
+
+.t-h3 {
+  font-size: clamp(1.15rem, 2vw, 1.5rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-weight: 500;
+}
+
+.t-email {
+  font-size: clamp(1.25rem, 5.5vw, 3.25rem);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  font-weight: 400;
+}
+
+.t-mono {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.01em;
+  font-variant-numeric: tabular-nums;
+}
+
+.t-body {
+  max-width: var(--measure);
+  color: var(--fg-2);
+}
+
+/* ============================================================================
+   LAYOUT
+   ========================================================================= */
+
+.shell {
+  width: 100%;
+  max-width: 88rem;
+  margin-inline: auto;
+  padding-inline: var(--rail);
+}
+
+.section {
+  padding-block: clamp(4.5rem, 8vw, 7.5rem);
+}
+
+.rule {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 0;
+}
+
+/* ============================================================================
+   CONTROLS
+   Single radius, single accent, AA contrast verified in both themes.
+   ========================================================================= */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+  padding: 0.72rem 1.15rem;
+  border-radius: var(--radius);
+  font-size: 0.925rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  border: 1px solid transparent;
+  transition:
+    transform 0.12s ease,
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.btn-primary:hover {
+  background: var(--accent-soft);
+}
+
+.btn-ghost {
+  border-color: var(--line-strong);
+  color: var(--fg);
+}
+
+.btn-ghost:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Link that reveals a rule from the left on hover. Used for nav and socials. */
+.link-rule {
+  position: relative;
+  color: var(--fg-2);
+  transition: color 0.18s ease;
+}
+
+.link-rule::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  height: 1px;
+  width: 100%;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.28s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.link-rule:hover,
+.link-rule:focus-visible {
+  color: var(--fg);
+}
+
+.link-rule:hover::after,
+.link-rule:focus-visible::after {
+  transform: scaleX(1);
+}
+
+/* ============================================================================
+   DUOTONE MEDIA
+   Photography is desaturated and tinted into the palette so placeholder shots
+   and real ones sit in the same world.
+   ========================================================================= */
+
+.duotone {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: linear-gradient(170deg, var(--accent) 0%, var(--bg-2) 82%);
+  isolation: isolate;
+}
+
+.duotone img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.06);
+  mix-blend-mode: luminosity;
+  opacity: 0.88;
+  transition:
+    transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
+    opacity 0.4s ease;
+}
+
+.group:hover .duotone img {
+  transform: scale(1.035);
+  opacity: 1;
+}
+
+/* Grain sits on a fixed, non-scrolling layer so it never forces repaints. */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.22;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+}
+
+/* ============================================================================
+   LOGO WALL
+   Simple Icons marks pulled as CSS masks so one asset serves both themes.
+   ========================================================================= */
+
+.mark {
+  width: 2.25rem;
+  height: 2.25rem;
+  flex: none;
+  opacity: 0.72;
+  background-color: var(--fg);
+  transition: opacity 0.25s ease;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+.marquee-viewport:hover .mark {
+  opacity: 0.45;
+}
+
+.marquee-viewport .mark:hover {
+  opacity: 1;
+}
+
+.marquee {
+  display: flex;
+  width: max-content;
+  gap: clamp(2.5rem, 5vw, 4.5rem);
+  padding-inline: clamp(1.25rem, 2.5vw, 2.25rem);
+  animation: pan 46s linear infinite;
+}
+
+.marquee-viewport:hover .marquee {
+  animation-play-state: paused;
+}
+
+@keyframes pan {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ============================================================================
+   MOTION
+   Two motivated moments only:
+     1. Hero assembles once on load, so the claim lands before anything else.
+     2. Work cells and timeline rows reveal in sequence, so the reader's eye
+        follows the order the content is meant to be read in.
+   Everything else responds to a pointer or a key. Nothing loops except the
+   marquee, whose job is to show breadth.
+   ========================================================================= */
+
+.rise {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+}
+
+.rise > * {
+  display: block;
+  animation: rise-up 1s cubic-bezier(0.16, 0.9, 0.24, 1) backwards;
+  animation-delay: var(--d, 0ms);
+}
+
+@keyframes rise-up {
+  from {
+    transform: translateY(105%);
+  }
+}
+
+.fade-in {
+  animation: fade-in 0.9s ease backwards;
+  animation-delay: var(--d, 0ms);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.6rem);
+  }
+}
+
+/* IntersectionObserver-driven reveal. CSS scroll-driven animations are still
+   missing in Firefox, so the observer is the primary mechanism, not a fallback. */
+.reveal > * {
+  opacity: 0;
+  transform: translateY(1.1rem);
+  transition:
+    opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: calc(var(--stagger, 70ms) * var(--i, 0));
+}
+
+.reveal.is-in > * {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .rise > *,
+  .fade-in {
+    animation: none;
+  }
+
+  .marquee {
+    animation: none;
+    transform: none;
+  }
+
+  .reveal > * {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .duotone img,
+  .group:hover .duotone img {
+    transition: none;
+    transform: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .grain {
+    display: none;
+  }
+}

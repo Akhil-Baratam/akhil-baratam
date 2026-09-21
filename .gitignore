@@ -1,0 +1,12 @@
+node_modules
+.next
+out
+.vercel
+tsconfig.tsbuildinfo
+.env*.local
+next-env.d.ts
+.DS_Store
+
+# Local agent tooling, not part of the site
+.claude/
+skills-lock.json
